@@ -1,0 +1,6 @@
+.env
+*.exe
+Beego-event-explorer
+tmp/
+.idea/
+.vscode/
