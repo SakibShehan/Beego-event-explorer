@@ -16,5 +16,8 @@ func main() {
 
 	controllers.LocationSvc = services.NewGoogleClient(os.Getenv("GOOGLE_API_KEY"))
 
+	tm := services.NewTicketmasterClient(os.Getenv("TICKETMASTER_API_KEY"))
+	controllers.EventSvc = services.NewEventService(tm)
+
 	web.Run()
 }
