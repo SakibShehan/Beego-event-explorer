@@ -9,7 +9,8 @@ import (
 )
 
 type EventService struct {
-	Provider EventProvider
+	Provider    EventProvider
+	TicketHosts []string
 }
 
 func NewEventService(p EventProvider) *EventService {
@@ -71,9 +72,14 @@ func (s *EventService) Listing(ctx context.Context, city, country string) models
 	return res
 }
 
-// Details fetches one event by ID.
+// fetches one event by ID.
 func (s *EventService) Details(ctx context.Context, id string) (models.Event, error) {
 	ctx, cancel := context.WithTimeout(ctx, 8*time.Second)
 	defer cancel()
 	return s.Provider.GetEvent(ctx, id)
+}
+
+// checks a provider ticket URL
+func (s *EventService) ValidTicketURL(raw string) (string, error) {
+	return ValidateTicketURL(raw, s.TicketHosts)
 }

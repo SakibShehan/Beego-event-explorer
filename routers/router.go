@@ -7,10 +7,16 @@ import (
 )
 
 func init() {
+	// Pages (HTML)
 	web.Router("/", &controllers.HomeController{}, "get:Index")
-	web.Router("/api/locations/autocomplete", &controllers.APIController{}, "get:Autocomplete")
-	web.Router("/api/locations/:placeId", &controllers.APIController{}, "get:Place")
 	web.Router("/events", &controllers.EventsController{}, "get:List")
 	web.Router("/events/:eventId", &controllers.EventsController{}, "get:Details")
 
+	// Ticket action and mock-mode destination
+	web.Router("/redirect/:eventId", &controllers.RedirectController{}, "get:Go")
+	web.Router("/demo/tickets/:eventId", &controllers.DemoController{}, "get:Ticket")
+
+	// JSON APIs (autocomplete must come before the :placeId route)
+	web.Router("/api/locations/autocomplete", &controllers.APIController{}, "get:Autocomplete")
+	web.Router("/api/locations/:placeId", &controllers.APIController{}, "get:Place")
 }

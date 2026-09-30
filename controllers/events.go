@@ -12,7 +12,7 @@ import (
 	web "github.com/beego/beego/v2/server/web"
 )
 
-// Set once in main file
+// Set once in main.go, after .env is loaded.
 var EventSvc *services.EventService
 
 var (
@@ -24,7 +24,7 @@ type EventsController struct {
 	web.Controller
 }
 
-// showError renders error.tpl 
+// showError renders error.tpl with the given HTTP status.
 func (c *EventsController) showError(status int, title, heading, message string) {
 	c.Ctx.Output.SetStatus(status)
 	c.Data["Title"] = title + " | Event Explorer"
@@ -33,7 +33,7 @@ func (c *EventsController) showError(status int, title, heading, message string)
 	c.TplName = "error.tpl"
 }
 
-// get by eventes city and country code
+// GET /events?city=Toronto&countryCode=CA
 func (c *EventsController) List() {
 	city := strings.TrimSpace(c.GetString("city"))
 	country := strings.ToUpper(strings.TrimSpace(c.GetString("countryCode")))
@@ -56,7 +56,7 @@ func (c *EventsController) List() {
 	c.TplName = "listing.tpl"
 }
 
-// get by events id 
+// GET /events/:eventId
 func (c *EventsController) Details() {
 	id := c.Ctx.Input.Param(":eventId")
 
@@ -79,7 +79,7 @@ func (c *EventsController) Details() {
 		return
 	}
 
-	//Back to events
+	// Build the "Back to events" link from the event's own city, so direct links work.
 	backURL := "/"
 	if ev.City != "" && ev.CountryCode != "" {
 		q := url.Values{}
@@ -87,6 +87,10 @@ func (c *EventsController) Details() {
 		q.Set("countryCode", ev.CountryCode)
 		backURL = "/events?" + q.Encode()
 	}
+
+	// Does this event have a safe ticket page? The template only gets true/false,
+	// the real URL never leaves the server.
+
 
 	c.Data["Title"] = ev.Name + " | Event Explorer"
 	c.Data["Event"] = ev

@@ -66,14 +66,14 @@
         </div>
         {{end}}
 
-        <a href="/redirect/{{.Event.ID}}" class="btn-primary btn-block" rel="nofollow">
-          View tickets
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M7 17L17 7M8 7h9v9"></path>
-          </svg>
-        </a>
-        <p class="detail-note">You will continue on the ticket provider's website to buy tickets.</p>
+        <a href="{{.Event.TicketURL}}" class="btn-primary btn-block" rel="nofollow">
+  View tickets
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M7 17L17 7M8 7h9v9"></path>
+  </svg>
+</a>
+<p class="detail-note">You will continue on Ticketmaster to buy tickets.</p>
       </aside>
 
     </div>

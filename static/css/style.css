@@ -616,6 +616,41 @@ a { color: inherit; text-decoration: none; }
   font-size: 0.78rem;
 }
 
+/* ---------- Demo ticket page ---------- */
+.ticket-page { padding: 72px 0 96px; }
+
+.ticket-card {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 40px 32px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.ticket-check {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+  border-radius: 14px;
+  background: #e6efe9;
+  color: var(--green);
+}
+
+.ticket-card h1 {
+  margin: 0 0 24px;
+  font-size: clamp(1.3rem, 4vw, 1.7rem);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+.ticket-card h1 span { color: var(--green); }
+.ticket-card .back-link { margin: 0; }
+.details-card .notice { margin-top: 8px; font-size: 0.85rem; padding: 14px 16px; }
+
 @media (max-width: 900px) {
   .details-grid { grid-template-columns: 1fr; gap: 28px; }
   .details-card { position: static; }
