@@ -13,6 +13,7 @@ require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20181017120253-0766667cb4d1 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
+	github.com/joho/godotenv v1.5.1
 	github.com/jtolds/gls v4.20.0+incompatible // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect

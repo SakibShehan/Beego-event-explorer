@@ -8,4 +8,7 @@ import (
 
 func init() {
 	web.Router("/", &controllers.HomeController{}, "get:Index")
+	web.Router("/api/locations/autocomplete", &controllers.APIController{}, "get:Autocomplete")
+	web.Router("/api/locations/:placeId", &controllers.APIController{}, "get:Place")
+
 }
