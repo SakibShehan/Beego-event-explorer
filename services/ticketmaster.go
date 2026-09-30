@@ -50,16 +50,26 @@ type tmEvent struct {
 	Note   string    `json:"pleaseNote"`
 	Images []tmImage `json:"images"`
 	Dates  struct {
-		Start struct {
+		Timezone string `json:"timezone"`
+		Start    struct {
 			LocalDate string `json:"localDate"`
+			LocalTime string `json:"localTime"`
 		} `json:"start"`
 	} `json:"dates"`
+	Classifications []struct {
+		Segment struct {
+			Name string `json:"name"`
+		} `json:"segment"`
+	} `json:"classifications"`
 	Embedded struct {
 		Venues []struct {
 			Name string `json:"name"`
 			City struct {
 				Name string `json:"name"`
 			} `json:"city"`
+			Country struct {
+				CountryCode string `json:"countryCode"`
+			} `json:"country"`
 		} `json:"venues"`
 	} `json:"_embedded"`
 }
@@ -70,12 +80,12 @@ type tmListResponse struct {
 	} `json:"_embedded"`
 }
 
-// 16:9 image by default
-func pickImage(imgs []tmImage) string {
-	best, minW := "", 0
+// smallest 16:9 image
+func pickImage(imgs []tmImage, minWidth int) string {
+	best, bestW := "", 0
 	for _, im := range imgs {
-		if im.Ratio == "16_9" && im.Width >= 500 && (best == "" || im.Width < minW) {
-			best, minW = im.URL, im.Width
+		if im.Ratio == "16_9" && im.Width >= minWidth && (best == "" || im.Width < bestW) {
+			best, bestW = im.URL, im.Width
 		}
 	}
 	if best != "" {
@@ -101,17 +111,38 @@ func formatDate(localDate string) string {
 	return t.Format("Mon, 02 Jan 2006")
 }
 
+func formatTime(localTime string) string {
+	if localTime == "" {
+		return ""
+	}
+	t, err := time.Parse("15:04:05", localTime)
+	if err != nil {
+		return ""
+	}
+	return t.Format("3:04 PM")
+}
+
 func (e tmEvent) toModel() models.Event {
 	ev := models.Event{
 		ID:        e.ID,
 		Name:      e.Name,
 		TicketURL: e.URL,
-		ImageURL:  pickImage(e.Images),
+		ImageURL:  pickImage(e.Images, 500),
+		HeroURL:   pickImage(e.Images, 1000),
 		Date:      formatDate(e.Dates.Start.LocalDate),
+		Time:      formatTime(e.Dates.Start.LocalTime),
+		Timezone:  e.Dates.Timezone,
 	}
 	if len(e.Embedded.Venues) > 0 {
-		ev.Venue = e.Embedded.Venues[0].Name
-		ev.City = e.Embedded.Venues[0].City.Name
+		v := e.Embedded.Venues[0]
+		ev.Venue = v.Name
+		ev.City = v.City.Name
+		ev.CountryCode = v.Country.CountryCode
+	}
+	if len(e.Classifications) > 0 {
+		if name := e.Classifications[0].Segment.Name; name != "Undefined" {
+			ev.Category = name
+		}
 	}
 	ev.Description = e.Info
 	if ev.Description == "" {

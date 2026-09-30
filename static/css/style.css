@@ -505,6 +505,121 @@ a { color: inherit; text-decoration: none; }
   .listing-title-row { flex-direction: column; }
   .breadcrumb { margin-bottom: 24px; }
 }
+
+/* ---------- Details page ---------- */
+.details-page { padding: 28px 0 72px; }
+.details-page .breadcrumb { margin-bottom: 24px; }
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: var(--green);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.back-link:hover { text-decoration: underline; }
+
+.details-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 40px;
+  align-items: start;
+}
+
+.details-hero {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #dfe8e3;
+}
+.details-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.details-category {
+  margin: 28px 0 8px;
+  color: var(--green);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.details-title {
+  margin: 0;
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+}
+.details-rule {
+  margin: 28px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+.details-about {
+  margin: 0 0 12px;
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+}
+.details-desc {
+  margin: 0;
+  color: var(--muted);
+  white-space: pre-line;   /* keeps line breaks from the provider's text */
+  overflow-wrap: anywhere;
+}
+.details-desc.muted { font-style: italic; }
+
+/* Side card */
+.details-card {
+  position: sticky;
+  top: 24px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.details-card-title {
+  margin: 0 0 20px;
+  font-size: 1.7rem;
+  letter-spacing: -0.03em;
+}
+
+.detail-item {
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+.detail-label {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.detail-value { margin: 0; font-size: 0.95rem; font-weight: 700; }
+.detail-sub { margin: 4px 0 0; color: var(--muted); font-size: 0.8rem; }
+
+.btn-block {
+  width: 100%;
+  min-width: 0;
+  height: 52px;
+  margin-top: 8px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+.detail-note {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+@media (max-width: 900px) {
+  .details-grid { grid-template-columns: 1fr; gap: 28px; }
+  .details-card { position: static; }
+}
 /* ---------- Responsive ---------- */
 @media (max-width: 720px) {
   .header-inner { height: 72px; }

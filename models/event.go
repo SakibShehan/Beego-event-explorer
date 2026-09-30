@@ -4,9 +4,14 @@ type Event struct {
 	ID          string
 	Name        string
 	ImageURL    string
-	Date        string // already formatted, e.g. "Sun, 07 Feb 2027"
+	HeroURL     string
+	Date        string
+	Time        string
+	Timezone    string
 	Venue       string
 	City        string
+	CountryCode string
+	Category    string
 	Description string
 	TicketURL   string
 }

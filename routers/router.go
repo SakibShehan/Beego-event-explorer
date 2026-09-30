@@ -11,5 +11,6 @@ func init() {
 	web.Router("/api/locations/autocomplete", &controllers.APIController{}, "get:Autocomplete")
 	web.Router("/api/locations/:placeId", &controllers.APIController{}, "get:Place")
 	web.Router("/events", &controllers.EventsController{}, "get:List")
+	web.Router("/events/:eventId", &controllers.EventsController{}, "get:Details")
 
 }

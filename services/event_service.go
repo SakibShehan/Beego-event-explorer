@@ -22,7 +22,7 @@ type categoryResult struct {
 	Err    error
 }
 
-// fetchAsync starts a goroutine 
+// fetchAsync starts a goroutine
 func (s *EventService) fetchAsync(ctx context.Context, city, country, category string) <-chan categoryResult {
 	ch := make(chan categoryResult, 1)
 
@@ -69,4 +69,11 @@ func (s *EventService) Listing(ctx context.Context, city, country string) models
 		res.Sports = sportsRes.Events
 	}
 	return res
+}
+
+// Details fetches one event by ID.
+func (s *EventService) Details(ctx context.Context, id string) (models.Event, error) {
+	ctx, cancel := context.WithTimeout(ctx, 8*time.Second)
+	defer cancel()
+	return s.Provider.GetEvent(ctx, id)
 }
