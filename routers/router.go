@@ -19,4 +19,8 @@ func init() {
 	// JSON APIs (autocomplete must come before the :placeId route)
 	web.Router("/api/locations/autocomplete", &controllers.APIController{}, "get:Autocomplete")
 	web.Router("/api/locations/:placeId", &controllers.APIController{}, "get:Place")
+
+	// Cache maintenance
+	web.Router("/delete", &controllers.CacheController{}, "get:DeleteAll")
+	web.Router("/delete/:name", &controllers.CacheController{}, "get:DeleteByName")
 }

@@ -94,6 +94,61 @@ func (c *EventCache) Clear() int {
 	return n
 }
 
+func (c *EventCache) DeleteByCity(city string) int {
+	city = strings.ToLower(strings.TrimSpace(city))
+
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
+	n := 0
+	for key := range c.items {
+		parts := strings.Split(key, "|")
+		if len(parts) == 3 && parts[0] == city {
+			delete(c.items, key) // deleting while ranging is safe in Go
+			n++
+		}
+	}
+	log.Printf("[cache] DELETED %d entries for city %q", n, city)
+	return n
+}
+
+//  removes every entry for a category (all cities).
+func (c *EventCache) DeleteByCategory(category string) int {
+	category = strings.ToLower(strings.TrimSpace(category))
+
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
+	n := 0
+	for key := range c.items {
+		parts := strings.Split(key, "|")
+		if len(parts) == 3 && parts[2] == category {
+			delete(c.items, key)
+			n++
+		}
+	}
+	log.Printf("[cache] DELETED %d entries for category %q", n, category)
+	return n
+}
+
+//removes every entry for a country code
+func (c *EventCache) DeleteByCountry(country string) int {
+	country = strings.ToUpper(strings.TrimSpace(country))
+
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
+	n := 0
+	for key := range c.items {
+		parts := strings.Split(key, "|")
+		if len(parts) == 3 && parts[1] == country {
+			delete(c.items, key)
+			n++
+		}
+	}
+	log.Printf("[cache] DELETED %d entries for country %q", n, country)
+	return n
+}
 
 func copyEvents(src []models.Event) []models.Event {
 	out := make([]models.Event, len(src))
